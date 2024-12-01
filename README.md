@@ -56,8 +56,6 @@ Chaque service peut être configuré individuellement :
 - **Gatus** : Les paramètres sont définis dans `gatus/config/config.yaml`.
 - **Traefik** : Les règles dynamiques sont dans `traefik/traefik-dynamic.yml`.
 
-Assurez-vous que les fichiers de configuration correspondent à votre environnement et à vos besoins spécifiques.
-
 ## Sécurité
 
 Stratus intègre plusieurs mesures de sécurité :
