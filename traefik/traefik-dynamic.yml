@@ -1,0 +1,117 @@
+http:
+  routers:
+    gatus:
+      rule: "Host(`${GATUS_HOST}`)"
+      service: gatus
+      middlewares:
+        - authelia
+        - secureHeaders
+    grafana:
+      rule: "Host(`${GRAFANA_HOST}`)"
+      service: grafana
+      middlewares:
+        - authelia
+        - secureHeaders
+    auth:
+      rule: "Host(`${AUTHELIA_HOST}`)"
+      service: authelia
+      middlewares:
+        - secureHeaders
+    mlflow:
+      rule: "Host(`${MLFLOW_HOST}`)"
+      service: mlflow
+      middlewares:
+        - authelia
+        - secureHeaders
+    minio:
+      rule: "Host(`${MINIO_HOST}`)"
+      service: minio
+      middlewares:
+        - authelia
+        - secureHeaders
+    labelstudio:
+      rule: "Host(`${LABELSTUDIO_HOST}`)"
+      service: labelstudio
+      middlewares:
+        - authelia
+        - secureHeaders
+    neo4j:
+      rule: "Host(`${NEO4J_HOST}`)"
+      service: neo4j
+      middlewares:
+        - authelia
+        - secureHeaders
+    vault:
+      rule: "Host(`${VAULT_HOST}`)"
+      service: vault
+      middlewares:
+        - authelia
+        - secureHeaders
+    ssh:
+      rule: "Host(`${SSH_HOST}`)"
+      service: ssh
+      middlewares:
+        - authelia
+        - secureHeaders
+
+  services:
+    gatus:
+      loadBalancer:
+        servers:
+          - url: "http://gatus:8088"
+    grafana:
+      loadBalancer:
+        servers:
+          - url: "http://grafana:3000"
+    authelia:
+      loadBalancer:
+        servers:
+          - url: "http://authelia:9091"
+    mlflow:
+      loadBalancer:
+        servers:
+          - url: "http://mlflow:5002"
+    minio:
+      loadBalancer:
+        servers:
+          - url: "http://minio:9000"
+    labelstudio:
+      loadBalancer:
+        servers:
+          - url: "http://label-studio:8081"
+    neo4j:
+      loadBalancer:
+        servers:
+          - url: "http://neo4j:7474"
+    vault:
+      loadBalancer:
+        servers:
+          - url: "http://vault:8200"
+    ssh:
+      loadBalancer:
+        servers:
+          - url: "ssh://localhost:42"
+
+  middlewares:
+    authelia:
+      forwardAuth:
+        address: "http://authelia:9091/api/verify?rd=https://${AUTHELIA_REDIRECT_DOMAIN}/"
+        trustForwardHeader: true
+        authResponseHeaders:
+          - "Remote-User"
+          - "Remote-Groups"
+          - "Remote-Name"
+          - "Remote-Email"
+
+    secureHeaders:
+      headers:
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
+        customFrameOptionsValue: SAMEORIGIN
+        customResponseHeaders:
+          X-Robots-Tag: "none,noarchive,nosnippet,notranslate,noimageindex"
+        contentSecurityPolicy: "frame-ancestors 'self' *.mlops.bzh"

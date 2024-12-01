@@ -1,0 +1,64 @@
+endpoints:
+  - name: "WeaveStruct"
+    url: "http://${WEAVESTRUCT_HOST}:${WEAVESTRUCT_PORT}/health"
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: discord
+        failure-threshold: 2
+        success-threshold: 1
+        send-on-resolved: true
+
+  - name: "Authelia"
+    url: "http://${AUTHELIA_HOST}:${AUTHELIA_PORT}/api/verify"
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: "MLflow"
+    url: "http://${MLFLOW_HOST}:${MLFLOW_PORT}/"
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: discord
+        failure-threshold: 2
+        success-threshold: 1
+        send-on-resolved: true
+
+  - name: "MinIO"
+    url: "http://${MINIO_HOST}:${MINIO_PORT}/minio/health/live"
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: "Label Studio"
+    url: "http://${LABELSTUDIO_HOST}:${LABELSTUDIO_PORT}/health"
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: "Neo4j"
+    url: "http://${NEO4J_HOST}:${NEO4J_PORT}/browser"
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: "Vault"
+    url: "http://${VAULT_HOST}:${VAULT_PORT}/v1/sys/health"
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: "SSH Proxy"
+    url: "http://${SSH_HOST}:${SSH_PORT}"
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: "Traefik"
+    url: "http://${TRAEFIK_HOST}:${TRAEFIK_HTTP_PORT}/api/overview"
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
