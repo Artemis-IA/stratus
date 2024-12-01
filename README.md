@@ -1,4 +1,4 @@
-# Projet Stratus
+# 🌥️ 🌐 Stratus Gateway
 
 Le projet **Stratus** vise à fournir une infrastructure complète pour le déploiement sécurisé d'applications web, en intégrant des services essentiels tels que la gestion des identités, la supervision, le proxy inverse et la gestion des secrets.
 
